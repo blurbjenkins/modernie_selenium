@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="modern.ie Selenium : Manage modern.ie VBox-VMs with Selenium-Support" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>modern.ie Selenium</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/gpkvt/modernie_selenium">View on GitHub</a>
+
+          <h1 id="project_title">modern.ie Selenium</h1>
+          <h2 id="project_tagline">Manage modern.ie VBox-VMs with Selenium-Support</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/gpkvt/modernie_selenium/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/gpkvt/modernie_selenium/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="modernie_selenium" class="anchor" href="#modernie_selenium"><span class="octicon octicon-link"></span></a>modernie_selenium</h1>
+
+<p>Manage modern.ie VBox-VMs with Selenium-Support</p>
+
+<p>This script allows to delete and create virtual Windows-Machines using Images from modern.ie for automating Browser-Testing with Selenium.</p>
+
+<p>As the modern.ie-Machines refuses to run more than 30-90 Days (at least for more than an hour) we remove the machines on a regular basis and recreate the original Appliance with all changes needed to run Selenium.</p>
+
+<h1>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h1>
+
+<ul>
+<li>modern.ie VBox-Appliances</li>
+<li>VirtualBox (tested with 4.3)</li>
+<li>VirtualBox Extension Pack</li>
+<li>Selenium-Hub</li>
+<li>deuac.iso</li>
+<li>IEDriverServer (for Selenium)</li>
+<li>chromedriver (for Selenium)</li>
+<li>Java JRE (for Selenium)</li>
+<li>Selenium Standalone Server</li>
+<li>Optional: phpVirtualBox</li>
+</ul><h1>
+<a name="what-it-does" class="anchor" href="#what-it-does"><span class="octicon octicon-link"></span></a>What it does</h1>
+
+<ul>
+<li>Import modern.ie Appliances to VirtualBox</li>
+<li>Configure VM Network-Settings</li>
+<li>Configure VM RDP-Port-Setting (VRDE)</li>
+<li>Configure VM Clipboard behaviour</li>
+<li>Disable UAC</li>
+<li>Disable Windows-Firewall</li>
+<li>Rename the VM (Hostname)</li>
+<li>Configures IE Protected-Mode to work with Selenium</li>
+<li>Disables IE Cache</li>
+<li>Install Java</li>
+<li>Install Firefox</li>
+<li>Install Chrome</li>
+<li>Install Selenium</li>
+<li>Reports via E-Mail</li>
+</ul><h1>
+<a name="what-it-not-does" class="anchor" href="#what-it-not-does"><span class="octicon octicon-link"></span></a>What it not does</h1>
+
+<ul>
+<li>Download modern.ie Appliances</li>
+<li>Set up VirtualBox (if you use SaltStack check out: <a href="https://gist.github.com/gpkvt/b276223ad5c923023aaa">https://gist.github.com/gpkvt/b276223ad5c923023aaa</a>)</li>
+<li>Set up phpVirtualBox (again, if you use SaltStack: <a href="https://gist.github.com/gpkvt/a8785032c0aa3d920ab9">https://gist.github.com/gpkvt/a8785032c0aa3d920ab9</a>)</li>
+</ul><h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h1>
+
+<ul>
+<li>Download the Appliance(s) you want to use from <a href="http://www.modern.ie/">http://www.modern.ie/</a> and put the extracted OVA-Files on your Server. </li>
+<li>Get the Windows Java (JRE) Installer and Selenium Server Standalone (JAR) and put them beside the OVA-Files (or somewhere else).</li>
+<li>Get deuac.iso (<a href="https://github.com/tka/SeleniumBox/blob/master/deuac.iso">https://github.com/tka/SeleniumBox/blob/master/deuac.iso</a>)</li>
+<li>Get IEDriverServer.exe (<a href="https://code.google.com/p/selenium/wiki/InternetExplorerDriver">https://code.google.com/p/selenium/wiki/InternetExplorerDriver</a>) and put it in <code>Tools/selenium_conf/</code>
+</li>
+<li>Get chromedriver.exe (<a href="https://code.google.com/p/selenium/wiki/ChromeDriver">https://code.google.com/p/selenium/wiki/ChromeDriver</a>) and put it in <code>Tools/selenium_conf/</code>
+</li>
+<li>Clone this repository</li>
+<li>Edit the Selenium Config-Files (<code>./Tools/Selenium_conf/*/config.json</code>)</li>
+<li>Edit the Config-Section in mkvm.sh so it fits your needs (see below for details)</li>
+<li><code>chmod +x mkvm.sh</code></li>
+<li>Run <code>mkvm.sh /path/to/your/appliance/foobar.ova</code>
+</li>
+</ul><h1>
+<a name="configure" class="anchor" href="#configure"><span class="octicon octicon-link"></span></a>Configure</h1>
+
+<p>By default the Script assumes that your VirtualBox-Machines are placed in <code>/srv/VMs/</code> and that the script is run by the User <code>vbox</code>. All supplemental files should be placed in <code>/opt/Tools/</code> but you can configure different paths.</p>
+
+<p>To do so simply edit <code>mkvm.sh</code>:</p>
+
+<pre><code>java_exe="jre-7u55-windows-i586.exe"
+</code></pre>
+
+<p>Filename of your Java-Installer.</p>
+
+<pre><code>selenium_jar="selenium-server-standalone-2.41.0.jar"
+</code></pre>
+
+<p>Filename of your Selenium-Server.</p>
+
+<pre><code>nic_bridge="eth2"
+</code></pre>
+
+<p>Name of your Network-Interface to use as bridge for your VM.</p>
+
+<pre><code>vm_path="/srv/VMs/"
+</code></pre>
+
+<p>Path where to put your VMs.</p>
+
+<pre><code>vm_mem="768"
+</code></pre>
+
+<p>Amount of memory (RAM) for Windows Vista, 7 and 8.x VMs in MB.</p>
+
+<pre><code>vm_mem_xp="512"
+</code></pre>
+
+<p>Amount of memory (RAM) for Windows XP VMs in MB.</p>
+
+<pre><code>deuac_iso="/opt/Tools/deuac.iso"
+</code></pre>
+
+<p>Path and filename for deuac.iso (a bootable CD-Image to disable UAC so we can install Java without Problems).</p>
+
+<pre><code>tools_path="/opt/Tools/"
+</code></pre>
+
+<p>Path to <code>java_exe</code>, <code>firefox_exe</code> and <code>chrome_exe</code> (Location of Installers on VM-Host).</p>
+
+<pre><code>selenium_path="/opt/Tools/selenium_conf/"
+</code></pre>
+
+<p>Path to your Selenium-Config-Files. It's important that you keep the folder structure below this point, otherwise the config will not be copied to the VMs (or the wrong Config goes to the wrong Machines).</p>
+
+<pre><code>ie_cache_reg="/opt/Tools/ie_disablecache.reg"
+</code></pre>
+
+<p>Path and filename to <code>ie_disablecache.reg</code> (Disables Internet Explorer Cache).</p>
+
+<pre><code>ie_protectedmode_reg="/opt/Tools/ie_protectedmode.reg"
+</code></pre>
+
+<p>Path and filename to <code>ie_protectedmode.reg</code> (Enables Protected Mode for all IE Security Zones). </p>
+
+<pre><code>log_path="/home/vbox/"
+</code></pre>
+
+<p>Path to the (temporary) Logfile.</p>
+
+<pre><code>vbox_user="vbox"
+</code></pre>
+
+<p>Username of VirtualBox-User.</p>
+
+<pre><code>mailto="root@example.com"
+</code></pre>
+
+<p>E-Mail-Adress to send logfile to.</p>
+
+<pre><code>create_snapshot=False
+</code></pre>
+
+<p>If <code>True</code> a snapshot will be created after all changes have been made.</p>
+
+<h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>To import the IE6-WinXP Appliance simply run:</p>
+
+<pre><code>su vbox --shell=/bin/bash -c "/opt/mkvm.sh /opt/Appliances/xp/ie6/IE6\ -\ WinXP.ova"
+</code></pre>
+
+<p>If you already have an IE6-WinXP-Instance - and want to recreate it - run:</p>
+
+<pre><code>su vbox --shell=/bin/bash -c "/opt/mkvm.sh /opt/Appliances/xp/ie6/IE6\ -\ WinXP.ova" --delete "IE6 - WinXP"
+</code></pre>
+
+<p>We recommend to use a CronJob to recreate the VMs on a regular basis. See <code>mkvm_cronjob</code>. To avoid too much load on the Host we use a Wrapper-Script <code>mkvm_cron.sh</code> so that only one Appliance gets imported after another.</p>
+
+<h1>
+<a name="known-problems" class="anchor" href="#known-problems"><span class="octicon octicon-link"></span></a>Known Problems</h1>
+
+<p>XP-Machines doesn't set their new hostname automatically. You can use <code>C:\Temp\rename.bat</code> to set the correct name. Restart the VM afterwards. This is only needed if you run more than one instance of the same Appliance.</p>
+
+<h1>
+<a name="acknowledgements" class="anchor" href="#acknowledgements"><span class="octicon octicon-link"></span></a>Acknowledgements</h1>
+
+<ul>
+<li>deuac.iso comes from <a href="https://github.com/tka/SeleniumBox">https://github.com/tka/SeleniumBox</a>
+</li>
+<li>Inspired by <a href="https://github.com/xdissent/ievms">https://github.com/xdissent/ievms</a>
+</li>
+<li>Thanks to <a href="https://github.com/dsuckau" class="user-mention">@dsuckau</a> for the Selenium-Config Part</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">modern.ie Selenium maintained by <a href="https://github.com/gpkvt">gpkvt</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
