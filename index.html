@@ -34,9 +34,9 @@
         <h1>
 <a name="modernie_selenium" class="anchor" href="#modernie_selenium"><span class="octicon octicon-link"></span></a>modernie_selenium</h1>
 
-<p>Manage modern.ie VBox-VMs with Selenium-Support</p>
+<p>Manage modern.ie VirtualBox-Appliances with Selenium-Support</p>
 
-<p>This script allows to delete and create virtual Windows-Machines using Images from modern.ie for automating Browser-Testing with Selenium.</p>
+<p>This script allows to delete and create virtual Windows-Machines using Images from <a href="http://www.modern.ie">http://www.modern.ie</a> for automating Browser-Testing with Selenium.</p>
 
 <p>As the modern.ie-Machines refuses to run more than 30-90 Days (at least for more than an hour) we remove the machines on a regular basis and recreate the original Appliance with all changes needed to run Selenium.</p>
 
@@ -84,18 +84,15 @@
 
 <ul>
 <li>Download the Appliance(s) you want to use from <a href="http://www.modern.ie/">http://www.modern.ie/</a> and put the extracted OVA-Files on your Server. </li>
+<li>Clone this repository.</li>
 <li>Get the Windows Java (JRE) Installer and Selenium Server Standalone (JAR) and put them beside the OVA-Files (or somewhere else).</li>
-<li>Get deuac.iso (<a href="https://github.com/tka/SeleniumBox/blob/master/deuac.iso">https://github.com/tka/SeleniumBox/blob/master/deuac.iso</a>)</li>
-<li>Get IEDriverServer.exe (<a href="https://code.google.com/p/selenium/wiki/InternetExplorerDriver">https://code.google.com/p/selenium/wiki/InternetExplorerDriver</a>) and put it in <code>Tools/selenium_conf/</code>
-</li>
-<li>Get chromedriver.exe (<a href="https://code.google.com/p/selenium/wiki/ChromeDriver">https://code.google.com/p/selenium/wiki/ChromeDriver</a>) and put it in <code>Tools/selenium_conf/</code>
-</li>
-<li>Clone this repository</li>
-<li>Edit the Selenium Config-Files (<code>./Tools/Selenium_conf/*/config.json</code>)</li>
-<li>Edit the Config-Section in mkvm.sh so it fits your needs (see below for details)</li>
-<li><code>chmod +x mkvm.sh</code></li>
-<li>Run <code>mkvm.sh /path/to/your/appliance/foobar.ova</code>
-</li>
+<li>Get deuac.iso (<a href="https://github.com/tka/SeleniumBox/blob/master/deuac.iso">https://github.com/tka/SeleniumBox/blob/master/deuac.iso</a>).</li>
+<li>Get IEDriverServer.exe (<a href="https://code.google.com/p/selenium/wiki/InternetExplorerDriver">https://code.google.com/p/selenium/wiki/InternetExplorerDriver</a>) and put it in <code>./Tools/selenium_conf/</code>.</li>
+<li>Get chromedriver.exe (<a href="https://code.google.com/p/selenium/wiki/ChromeDriver">https://code.google.com/p/selenium/wiki/ChromeDriver</a>) and put it in <code>./Tools/selenium_conf/</code>.</li>
+<li>Get Chrome and Firefox, place both in <code>./Tools/</code>.</li>
+<li>Edit the Selenium Config-Files (<code>./Tools/Selenium_conf/*/config.json</code>).</li>
+<li>Edit the Config-Section in mkvm.sh so it fits your needs (see below for details).</li>
+<li>Run <code>mkvm.sh /path/to/your/appliance/foobar.ova</code>.</li>
 </ul><h1>
 <a name="configure" class="anchor" href="#configure"><span class="octicon octicon-link"></span></a>Configure</h1>
 
@@ -197,7 +194,7 @@
 <a name="known-problems" class="anchor" href="#known-problems"><span class="octicon octicon-link"></span></a>Known Problems</h1>
 
 <p>XP-Machines doesn't set their new hostname automatically. You can use <code>C:\Temp\rename.bat</code> to set the correct name. Restart the VM afterwards. This is only needed if you run more than one instance of the same Appliance.</p>
-<p>See <a href="https://github.com/conceptsandtraining/modernie_selenium/issues">https://github.com/conceptsandtraining/modernie_selenium/issues</a> for more Issues.</p>
+
 <h1>
 <a name="acknowledgements" class="anchor" href="#acknowledgements"><span class="octicon octicon-link"></span></a>Acknowledgements</h1>
 
@@ -206,6 +203,8 @@
 </li>
 <li>Inspired by <a href="https://github.com/xdissent/ievms">https://github.com/xdissent/ievms</a>
 </li>
+<li>
+<a href="http://modern.ie">http://modern.ie</a> is a Service offered by Microsoft, so thanks for that.</li>
 <li>Thanks to <a href="https://github.com/dsuckau" class="user-mention">@dsuckau</a> for the Selenium-Config Part</li>
 </ul>
       </section>
