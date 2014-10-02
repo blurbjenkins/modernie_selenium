@@ -6,13 +6,13 @@
 
 # Config; See readme for details.
 java_exe="jre-7u55-windows-i586.exe"
-firefox_exe="Firefox Setup 24.5.0esr.exe"
-chrome_exe="GoogleChromeStandaloneEnterprise.msi"
+firefox_exe="Firefox Setup 32.0.3.exe"
+chrome_exe="googlechromestandaloneenterprise.msi"
 selenium_jar="selenium-server-standalone-2.41.0.jar"
 
 nic_bridge="eth0"
 vm_path="/srv/VMs/"
-vm_mem="768"
+vm_mem="1024"
 vm_mem_xp="512"
 deuac_iso="/opt/Tools/deuac.iso"
 tools_path="/opt/Tools/"
